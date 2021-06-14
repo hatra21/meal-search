@@ -58,12 +58,21 @@ function getMealRecipe(e){
 function mealRecipeModal(meal){
     console.log(meal);
     meal = meal[0];
+    const ingredients = getIngredients(meal);
+
+
     let html = `
         <h2 class = "recipe-title">${meal.strMeal}</h2>
         <p class = "recipe-category">${meal.strCategory}</p>
         <div class = "recipe-instruct">
             <h3>Instructions:</h3>
             <p>${meal.strInstructions}</p>
+        </div>
+        <div class = "recipe-ingredients">
+            <h3>Ingredients:</h3>
+            <ul class = "ingredients">
+            ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+            </ul>
         </div>
         <div class = "recipe-meal-img">
             <img src = "${meal.strMealThumb}" alt = "">
@@ -75,3 +84,49 @@ function mealRecipeModal(meal){
     mealDetailsContent.innerHTML = html;
     mealDetailsContent.parentElement.classList.add('showRecipe');
 }
+
+// get ingredients into an array
+function getIngredients(meal) {
+    const ingredients = [];
+
+    for(let i = 1; i <= 20; i++) {
+        if (meal[`strIngredient${i}`]) {
+            ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+        } else {
+            break;
+        }
+    }
+
+    return ingredients;
+}
+
+// function addMealtoDOM(meal) {
+//     const ingredients = [];
+
+//     for(let i = 1; i <= 20; i++) {
+//         if (meal[`strIngredient${i}`]) {
+//             ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+//         } else {
+//             break;
+//         }
+//     }
+
+//     single_mealEl.innerHTML = `
+//       <div class="single-meal">
+//         <h1>${meal.strMeal}</h1>
+//         <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+//         <div class="single-meal-info">
+//             ${meal.strCategory ? `<p>${meal.strCategory}</p>`: ''}
+//             ${meal.strArea ? `<p>${meal.strArea}</p>`: ''}
+//         </div>
+
+//         <div class="main">
+//             <p class="instructions">${meal.strInstructions}</p>
+//             <h2>Ingredients</h2>
+//             <ul>
+//                 ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+//             </ul>
+//         </div>
+//       </div>
+//     `
+// }
